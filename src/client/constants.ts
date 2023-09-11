@@ -1,0 +1,7 @@
+
+export const NOTES_REDUCER_TYPES = {
+  "CREATE": "CREATE",
+  "UPDATE": "UPDATE",
+  "FETCH": "FETCH",
+  "DELETE": "DELETE"
+}
