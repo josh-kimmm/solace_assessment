@@ -21,7 +21,7 @@ const connectDb = async () => {
 const NoteService = async () => {
   await connectDb();
 
-  return new NoteRepo();
+  return NoteRepo;
 };
 
 

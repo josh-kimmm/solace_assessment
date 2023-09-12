@@ -1,45 +1,107 @@
 import Note from '../entity/Note';
 import AppDataSource from "../data-source";
+import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
-export default class NoteService {
-  private noteRepository = AppDataSource.getRepository(Note);
+const noteRepository = AppDataSource.getRepository(Note);
 
-  async getAllNotes() {
-    return this.noteRepository.find();
+const getAllNotes = async () => {
+  let notes: Note[];
+  try {
+    notes = await noteRepository.find();
+  } catch (err) {
+    console.error(`Unable to fetch all notes from DB: ${err.message}`);
+    throw err;
   }
 
-  async getNoteById(id: number) {
-    return this.noteRepository.findOneBy({ id });
+  return notes;
+};
+
+const getNoteById = async (id: number) => {
+  let note: Note; 
+  try {
+    note = await noteRepository.findOneBy({ id });
+  } catch (err) {
+    console.error(`Unable to fetch note id ${id} from DB: ${err.message}`);
+    throw err;
   }
 
+  return note;
+};
 
-  // TODO: Explain in comments why I chose to do it this way
-  async searchNoteContents(content: string) {
-    const notes = await this.noteRepository
+const searchNoteContents = async (content: string) => {
+  let notes: Note[];
+  
+  try {
+    notes = await noteRepository
       .createQueryBuilder()
       .select()
-      .where("search_vector @@ to_tsquery('simple', :content)", { content: content.toLowerCase() })
-      .getMany();
-
-    // TODO: Add some error handling
-
-    return notes;
+      .where(`contents ILIKE '%${content}%'`, { content })
+      .getMany();    
+  } catch (err) {
+    console.error(`Unable to fetch notes by search "${content}": ${err.message}`);
+    throw err;
   }
 
-  async createNote(note: Note) {
-    return await this.noteRepository.insert(note);
-  }
-
-  async updateNote(note: Note) {
-    const {id, title, contents } = note;
-    return await this.noteRepository.update({ id }, { title, contents });
-  }
-
-  async deleteNote(id: number) {
-    return await this.noteRepository.delete({ id });
-  }
-
-  newNoteEntity() {
-    return new Note();
-  }
+  return notes;
 };
+
+const createNote = async (noteToAdd: Note) => {
+  let addedNote: InsertResult; 
+  try {
+    addedNote = await noteRepository.insert(noteToAdd);
+  } catch (err) {
+    console.error(`Unable to create note with title: ${noteToAdd.title} and content: ${noteToAdd.contents}: ${err.message}`);
+    throw err;
+  }
+
+  return addedNote;
+};
+
+const updateNote = async (noteToUpdate: Note) => {
+  let updatedNote: UpdateResult;
+  try {
+    const {id, title, contents } = noteToUpdate;
+    updatedNote = await noteRepository
+      .createQueryBuilder()
+      .update()
+      .set({ title, contents })
+      .where('id = :id', { id })
+      .returning('*')
+      .execute();
+    
+    } catch (err) {
+      console.error(`Unable to update note id ${noteToUpdate.id}: ${err.message}`);
+      throw err;
+    }
+  
+  return updatedNote;
+};
+
+const deleteNote = async (id: number) => {
+  let deletedNote: DeleteResult;
+  try {
+    deletedNote = await noteRepository
+      .createQueryBuilder()
+      .delete()
+      .where('id = :id', { id })
+      .returning('*')
+      .execute();
+  } catch (err) {
+    console.error(`Unable to delete note id ${id}: ${err.message}`);
+    throw err;
+  }
+
+  return deletedNote;
+};
+
+
+
+const NoteService = {
+  getAllNotes,
+  getNoteById,
+  searchNoteContents,
+  createNote,
+  updateNote,
+  deleteNote
+};
+export default NoteService;

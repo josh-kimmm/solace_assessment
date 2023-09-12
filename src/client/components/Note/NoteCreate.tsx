@@ -1,41 +1,38 @@
 import { useState } from "react";
 
-import { ConnectedProps, connect } from "react-redux";
 import { _createNote } from "@/client/store/actions/notes";
 
 
-import { TextField, Container, Box, Stack, Typography } from "@mui/material";
+import { Stack, Button, styled } from "@mui/material";
+import NoteView from "./NoteView";
 
+import { NOTE_ACTIONS } from "@/client/constants";
 
-type PropTypes = ConnectedProps<typeof connector>;
-const NoteCreate = (props: PropTypes) => {
-  const { _createNote } = props;
-  
-  const [contents, setContents] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
+const Button_CreateNote = styled(Button)({
+  width: "12rem"
+})
+
+const NoteCreate = () => {
+  const [showNoteView, setShowNoteView] = useState<boolean>(false);
+  const openNoteView = () => setShowNoteView(true);
+  const closeNoteView = () => setShowNoteView(false);
 
   return (
     <Stack>
-      <Typography variant="h4" component="h4">
+      <Button_CreateNote
+        variant="contained"
+        onClick={openNoteView}
+      >
         Create new Note
-      </Typography>
-      <TextField
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <TextField 
-        value={contents}
-        onChange={(e) => setContents(e.target.value)}
+      </Button_CreateNote>
+      <NoteView
+        open={showNoteView} 
+        handleClose={closeNoteView}
+        saveAction={NOTE_ACTIONS.CREATE}
       />
     </Stack>
   )
 
 };
 
-const mapDispatchToProps = {
-  _createNote
-};
-
-const connector = connect(null, mapDispatchToProps);
-
-export default connector(NoteCreate);
+export default NoteCreate;

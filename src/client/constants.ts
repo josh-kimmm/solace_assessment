@@ -1,7 +1,24 @@
 
-export const NOTES_REDUCER_TYPES = {
+const NOTES_REDUCER_TYPES = {
   "CREATE": "CREATE",
   "UPDATE": "UPDATE",
   "FETCH": "FETCH",
   "DELETE": "DELETE"
-}
+} as const;
+
+
+const NOTE_ACTIONS = {
+  CREATE: "create",
+  UPDATE: "update"
+} as const;
+
+const MIN_LENGTH_NOTE_CONTENT = 20;
+const MAX_LENGTH_NOTE_CONTENT = 300;
+const ERROR_CONTENT_LENGTH = `Content must have greater than ${MIN_LENGTH_NOTE_CONTENT} characters and less than ${MAX_LENGTH_NOTE_CONTENT}`
+export { 
+  NOTES_REDUCER_TYPES,
+  NOTE_ACTIONS,
+  MIN_LENGTH_NOTE_CONTENT,
+  MAX_LENGTH_NOTE_CONTENT,
+  ERROR_CONTENT_LENGTH
+};

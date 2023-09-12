@@ -8,7 +8,7 @@ const MainTheme = createTheme({
           display: "flex",
           flexDirection: "column",
           padding: "2rem",
-          minHeight: "100vh",
+          height: "100vh",
         }
       }
     }
