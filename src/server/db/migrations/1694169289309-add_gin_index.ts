@@ -4,7 +4,8 @@ export class AddGinIndex1694169289309 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
-            CREATE INDEX text_search_idx ON note USING GIN(contents gin_trgm_ops)
+            CREATE EXTENSION pg_trgm;
+            CREATE INDEX text_search_idx ON note USING GIN(contents gin_trgm_ops);
         `)
     }
 

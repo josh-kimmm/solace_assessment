@@ -1,5 +1,5 @@
-import Note from '../entity/Note';
-import AppDataSource from "../data-source";
+import Note from '../db/entity/Note';
+import AppDataSource from "../db/data-source";
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
 const noteRepository = AppDataSource.getRepository(Note);
@@ -8,7 +8,7 @@ const getAllNotes = async () => {
   let notes: Note[];
   try {
     notes = await noteRepository.find();
-  } catch (err) {
+  } catch(err: any) {
     console.error(`Unable to fetch all notes from DB: ${err.message}`);
     throw err;
   }
@@ -17,10 +17,10 @@ const getAllNotes = async () => {
 };
 
 const getNoteById = async (id: number) => {
-  let note: Note; 
+  let note: Note | null; 
   try {
     note = await noteRepository.findOneBy({ id });
-  } catch (err) {
+  } catch(err: any) {
     console.error(`Unable to fetch note id ${id} from DB: ${err.message}`);
     throw err;
   }
@@ -37,7 +37,7 @@ const searchNoteContents = async (content: string) => {
       .select()
       .where(`contents ILIKE '%${content}%'`, { content })
       .getMany();    
-  } catch (err) {
+  } catch(err: any) {
     console.error(`Unable to fetch notes by search "${content}": ${err.message}`);
     throw err;
   }
@@ -49,7 +49,7 @@ const createNote = async (noteToAdd: Note) => {
   let addedNote: InsertResult; 
   try {
     addedNote = await noteRepository.insert(noteToAdd);
-  } catch (err) {
+  } catch(err: any) {
     console.error(`Unable to create note with title: ${noteToAdd.title} and content: ${noteToAdd.contents}: ${err.message}`);
     throw err;
   }
@@ -69,7 +69,7 @@ const updateNote = async (noteToUpdate: Note) => {
       .returning('*')
       .execute();
     
-    } catch (err) {
+    } catch(err: any) {
       console.error(`Unable to update note id ${noteToUpdate.id}: ${err.message}`);
       throw err;
     }
@@ -86,7 +86,7 @@ const deleteNote = async (id: number) => {
       .where('id = :id', { id })
       .returning('*')
       .execute();
-  } catch (err) {
+  } catch(err: any) {
     console.error(`Unable to delete note id ${id}: ${err.message}`);
     throw err;
   }

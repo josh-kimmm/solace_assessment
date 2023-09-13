@@ -20,7 +20,7 @@ export class AddTriggersForTextSearch1694167035455 implements MigrationInterface
         //         FOR EACH ROW
         //         EXECUTE FUNCTION tsvector_update_trigger(search_vector, 'pg_catalog.english', title, contents);
         //     `);
-        // } catch (err) {
+        // } catch(err: any) {
         //     console.log(`Migration failed with error: ${err}`);
         //     await queryRunner.rollbackTransaction();    
         // }
@@ -37,7 +37,7 @@ export class AddTriggersForTextSearch1694167035455 implements MigrationInterface
         //         DROP TRIGGER search_vector_update ON note
         //     `);
             
-        // } catch (err) {
+        // } catch(err: any) {
         //     console.error(`Revert failed with: ${err}`);
         //     await queryRunner.rollbackTransaction();
         // }

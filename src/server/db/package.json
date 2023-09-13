@@ -16,7 +16,9 @@
    "scripts": {
       "start": "ts-node src/index.ts",
       "typeorm": "typeorm-ts-node-commonjs",
-      "sync": "npm run typeorm schema:sync -- -d ./data-source.ts",
-      "migration": "npm run typeorm migration:run -- --d ./data-source.ts"
+      "sync": "env-cmd -f ../../../.env.local npm run typeorm schema:sync -- -d ./data-source.ts",
+      "migration": "env-cmd -f ../../../.env.local npm run typeorm migration:run -- --d ./data-source.ts",
+      "sync:dev": "env-cmd -f ../../../.env.development npm run typeorm schema:sync -- -d ./data-source.ts",
+      "migration:dev": "env-cmd -f ../../../.env.development npm run typeorm migration:run -- --d ./data-source.ts"
    }
 }

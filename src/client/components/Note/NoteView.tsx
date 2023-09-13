@@ -125,8 +125,8 @@ const NoteView = (props: PropTypes) => {
     try {
       const updatedNote = await saveContents({ id, title, contents });
       console.log(`updatedNote: ${updatedNote}`);
-    } catch (err) {
-      console.error(`Something wrong with saving the note: ${err}`);
+    } catch(err: any) {
+      console.error(`Something wrong with saving the note: ${err.message}`);
       setShowLoadSpinner(false);
       return;
     }
@@ -143,8 +143,8 @@ const NoteView = (props: PropTypes) => {
     try {
       const updatedNote = await _deleteNote({ id, title, contents });
       console.log(`updatedNote: ${updatedNote}`);
-    } catch (err) {
-      console.error(`Something wrong with saving the note: ${err}`);
+    } catch(err: any) {
+      console.error(`Something wrong with saving the note: ${err.message}`);
       setShowLoadSpinner(false);
       return;
     }

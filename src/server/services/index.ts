@@ -1,4 +1,4 @@
-import AppDataSource from "../data-source";
+import AppDataSource from "../db/data-source";
 import NoteRepo from "./NoteService";
 
 const connectDb = async () => {
@@ -9,9 +9,9 @@ const connectDb = async () => {
   
   try {
     await AppDataSource.initialize();
-  } catch (error) {
-    console.error("Error during Data Source initialization", error);
-    throw error;
+  } catch(err: any) {
+    console.error("Error during Data Source initialization", err);
+    throw err;
   }
 
   console.log("DB has been initialized");

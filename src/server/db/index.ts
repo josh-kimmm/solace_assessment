@@ -9,8 +9,8 @@ const connectDb = async () => {
   
   try {
     await AppDataSource.initialize();
-  } catch (error) {
-    console.error("Error during Data Source initialization", error)
+  } catch(err: any) {
+    console.error("Error during Data Source initialization", err)
   }
 
   console.log("DB has been initialized");

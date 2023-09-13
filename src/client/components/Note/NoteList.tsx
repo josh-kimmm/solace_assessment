@@ -112,7 +112,13 @@ const NoteList = (props: PropTypes) => {
 
   const fetchNotesWithLoading = async (latestSearch?: string) => {
     setLoadingNotes(true);
-    await _fetchNotes(latestSearch);
+
+    try {
+      await _fetchNotes(latestSearch);
+    } catch (err: any) {
+      console.error(`Unable to fetch notes: ${err.message}`);
+      // error state ideally set here
+    }
     setLoadingNotes(false);
   };
 
@@ -132,7 +138,7 @@ const NoteList = (props: PropTypes) => {
   }, []);
 
   const Notes_tsx = notes.map(note => 
-    <Card key={note.id} variant="outlined" onClick={e => openNote(note)} >
+    <Card key={note.id} variant="outlined" onClick={() => openNote(note)} >
       <CardHeader title={note.title} />
       <CardContent>{formatTextWithHighlight(note.contents, searchString)}</CardContent>
     </Card>

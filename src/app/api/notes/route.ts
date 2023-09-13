@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { NoteService } from '@/server/db/services';
+import { NoteService } from '@/server/services';
 import Note from '@/server/db/entity/Note';
 
 export async function GET(req: NextRequest) {
@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const allNotes = await Note.getAllNotes();
     
     return NextResponse.json({ notes: allNotes });
-  } catch (err) {
+  } catch(err: any) {
    console.error(`Server error detected in ${req.url}`);
    return NextResponse.json({ error: `Server error detected` }, { status: 500 });
   }
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   
     // payload doesn't get included on repository insertion result 
     return NextResponse.json({ new_note: {...createdNote.raw[0], ...notePayload } });
-  } catch (err) {
+  } catch(err: any) {
     console.error(`Server error detected in ${req.url}`);
     return NextResponse.json({ error: `Server error detected` }, { status: 500 });
   }
