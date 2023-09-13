@@ -2,9 +2,9 @@ require('dotenv').config();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // experimental: {
-  //   serverComponentsExternalPackages: ["typeorm"],
-  // },
+  experimental: {
+    serverComponentsExternalPackages: ["typeorm"],
+  },
 };
 
 module.exports = nextConfig;
