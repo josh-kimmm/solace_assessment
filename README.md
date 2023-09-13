@@ -14,7 +14,7 @@ This project was made by using NextJS/Postgresql/AWS.
 
 4. Now that postgres is setup, pull the latest code from github and run `npm i`. 
 
-5. We need to sync our DB with the entities listed in our db folder. Change into the @/src/server/db folder and run `npm run sync`.
+5. We need to sync our DB with the entities listed in our db folder. Make sure you have the following `.env.local` file in your system. It contains environment variables with DB credentials. Make sure to change the DB_USER_NAME and DB_PASSWORD to what your credentials are in postgres. By default it'd be postgres/postgres. Change into the @/src/server/db folder and run `npm run sync`.
 
 6. Migrations are the last step for DB setup so we need to run `npm run migration`.
 
