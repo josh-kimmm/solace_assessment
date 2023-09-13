@@ -6,5 +6,5 @@ const nextConfig = {
     serverComponentsExternalPackages: ["typeorm"],
   },
 };
-
+ 
 module.exports = nextConfig;
