@@ -14,7 +14,8 @@ const NOTE_ACTIONS = {
 
 const MIN_LENGTH_NOTE_CONTENT = 20;
 const MAX_LENGTH_NOTE_CONTENT = 300;
-const ERROR_CONTENT_LENGTH = `Content must have greater than ${MIN_LENGTH_NOTE_CONTENT} characters and less than ${MAX_LENGTH_NOTE_CONTENT}`
+const ERROR_CONTENT_LENGTH = `Content must have greater than ${MIN_LENGTH_NOTE_CONTENT} characters and less than ${MAX_LENGTH_NOTE_CONTENT}`;
+
 export { 
   NOTES_REDUCER_TYPES,
   NOTE_ACTIONS,

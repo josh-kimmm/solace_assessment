@@ -28,6 +28,7 @@ import NoteView from "./NoteView";
 import { Note } from "@/types";
 import { NOTE_ACTIONS } from "@/client/constants";
 import Loading from "../Loading";
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 
 const NoteListTheme = createTheme({
   components: {
@@ -75,7 +76,7 @@ const HighlightedText = styled('span')({
 
 // Need to consider moving this into a separate library or component library in the future
 // if we ever needed to highlight text via search
-const formatTextWithHighlight = (text: string, searchString: string) => { 
+const formatTextWithHighlight = (text: string, searchString: string): Array<string | ReactJSXElement> => { 
   // escape characters specific to regular expressions
   const escapedSearchString = searchString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   

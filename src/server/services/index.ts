@@ -1,7 +1,8 @@
+import { DataSource } from "typeorm";
 import AppDataSource from "../db/data-source";
-import NoteRepo from "./NoteService";
+import NoteRepo, { AllNoteServices } from "./NoteService";
 
-const connectDb = async () => {
+const connectDb = async (): Promise<DataSource> => {
   if(AppDataSource.isInitialized){
     console.log("Reusing DB instance!!!");
     return AppDataSource;
@@ -18,7 +19,8 @@ const connectDb = async () => {
   return AppDataSource;
 };
 
-const NoteService = async () => {
+const NoteService = async (): Promise<AllNoteServices> => {
+  // rethrow the error if we failed to connect to db, no need return anything
   await connectDb();
 
   return NoteRepo;

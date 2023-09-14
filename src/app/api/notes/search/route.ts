@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { NoteService } from '@/server/services';
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { textToSearch } = await req.json();
     const Note = await NoteService();

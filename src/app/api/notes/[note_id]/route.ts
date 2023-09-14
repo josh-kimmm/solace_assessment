@@ -3,7 +3,7 @@ import { NoteService } from '@/server/services';
 import Note from '@/server/db/entity/Note';
 
 
-export async function POST(req: NextRequest, { params }: { params: { note_id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: { note_id: string } }): Promise<NextResponse> {
   try {
     const id = parseInt(params.note_id);
     const { title, contents }:Note = await req.json();
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, { params }: { params: { note_id: st
   }
 };
 
-export async function DELETE(req: NextRequest, { params }: { params: { note_id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { note_id: string } }): Promise<NextResponse> {
   try {
     const id = parseInt(params.note_id);
     const Note = await NoteService();

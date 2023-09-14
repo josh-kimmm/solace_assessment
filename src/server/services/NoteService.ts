@@ -4,7 +4,7 @@ import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
 const noteRepository = AppDataSource.getRepository(Note);
 
-const getAllNotes = async () => {
+const getAllNotes = async (): Promise<Note[]> => {
   let notes: Note[];
   try {
     notes = await noteRepository.find();
@@ -16,7 +16,7 @@ const getAllNotes = async () => {
   return notes;
 };
 
-const getNoteById = async (id: number) => {
+const getNoteById = async (id: number): Promise<Note | null>=> {
   let note: Note | null; 
   try {
     note = await noteRepository.findOneBy({ id });
@@ -28,7 +28,7 @@ const getNoteById = async (id: number) => {
   return note;
 };
 
-const searchNoteContents = async (content: string) => {
+const searchNoteContents = async (content: string): Promise<Note[]> => {
   let notes: Note[];
   
   try {
@@ -45,7 +45,7 @@ const searchNoteContents = async (content: string) => {
   return notes;
 };
 
-const createNote = async (noteToAdd: Note) => {
+const createNote = async (noteToAdd: Note): Promise<InsertResult> => {
   let addedNote: InsertResult; 
   try {
     addedNote = await noteRepository.insert(noteToAdd);
@@ -57,7 +57,7 @@ const createNote = async (noteToAdd: Note) => {
   return addedNote;
 };
 
-const updateNote = async (noteToUpdate: Note) => {
+const updateNote = async (noteToUpdate: Note): Promise<UpdateResult> => {
   let updatedNote: UpdateResult;
   try {
     const {id, title, contents } = noteToUpdate;
@@ -77,7 +77,7 @@ const updateNote = async (noteToUpdate: Note) => {
   return updatedNote;
 };
 
-const deleteNote = async (id: number) => {
+const deleteNote = async (id: number): Promise<DeleteResult> => {
   let deletedNote: DeleteResult;
   try {
     deletedNote = await noteRepository
@@ -104,4 +104,7 @@ const NoteService = {
   updateNote,
   deleteNote
 };
+
+type AllNoteServices = typeof NoteService;
+export type { AllNoteServices }; 
 export default NoteService;

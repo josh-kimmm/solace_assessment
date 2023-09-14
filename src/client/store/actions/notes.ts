@@ -5,17 +5,17 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { NOTES_REDUCER_TYPES } from "@/client/constants";
 import { AxiosResponse } from "axios";
 
-const singleNoteAction = (action: SingleNoteAction) => ({
+const singleNoteAction = (action: SingleNoteAction): SingleNoteAction => ({
   type: action.type,
   payload: action.payload
 });
-const multipleNoteAction = (action: MultipleNoteAction) => ({
+const multipleNoteAction = (action: MultipleNoteAction): MultipleNoteAction => ({
   type: action.type,
   payload: action.payload
 });
 
 
-const _createNote = (note: Note) => async (dispatch: AppDispatch) => {
+const _createNote = (note: Note) => async (dispatch: AppDispatch): Promise<Note> => {
   try {
     const { data }: AxiosResponse<CreateNotesResponse> = await axios.post("/notes", note);
   
@@ -34,19 +34,20 @@ const _createNote = (note: Note) => async (dispatch: AppDispatch) => {
   }
 };
 
-const _updateNote = (note: Note) => async (dispatch: AppDispatch) => {
+const _updateNote = (note: Note) => async (dispatch: AppDispatch): Promise<Note> => {
   try {
     const { data }: AxiosResponse<UpdateNotesResponse> = await axios.post(`/notes/${note.id}`, note);
-  
-    console.log(`Updated note: ${data.updated_note}`);
+    const { updated_note } = data;
+    
+    console.log(`Updated note: ${updated_note}`);
     dispatch(singleNoteAction({
       type: NOTES_REDUCER_TYPES.UPDATE,
       payload: {
-        note: data.updated_note
+        note: updated_note
       }
     }));
   
-    return note;
+    return updated_note;
     
   } catch (err: any) {
     console.error(`Failed to update notes from server: ${err.message}`);
@@ -54,7 +55,7 @@ const _updateNote = (note: Note) => async (dispatch: AppDispatch) => {
   }
 };
 
-const _deleteNote = (note: Note) => async (dispatch: AppDispatch) => {
+const _deleteNote = (note: Note) => async (dispatch: AppDispatch): Promise<Note> => {
   try {
     const { data }: AxiosResponse<DeleteNotesResponse> = await axios.delete(`/notes/${note.id}`);
   
@@ -73,7 +74,7 @@ const _deleteNote = (note: Note) => async (dispatch: AppDispatch) => {
   }
 };
 
-const _fetchNotes = (searchStr?: string) => async (dispatch: AppDispatch) => {
+const _fetchNotes = (searchStr?: string) => async (dispatch: AppDispatch): Promise<Note[]> => {
   try {
     const { data }: AxiosResponse<FetchNotesResponse> = searchStr ? 
       await axios.post("/notes/search", { textToSearch: searchStr }) : 

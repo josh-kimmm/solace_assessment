@@ -8,7 +8,7 @@ const initialState: NotesState = {
   notesToShow: [],
 };
 
-const notes = (state = initialState, action: NotesReducerPayload) => {
+const notes = (state = initialState, action: NotesReducerPayload): NotesState => {
   const { type, payload } = action;
   const { notesToShow } = state;
 

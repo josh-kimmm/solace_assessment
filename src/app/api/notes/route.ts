@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import { NoteService } from '@/server/services';
 import Note from '@/server/db/entity/Note';
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const Note = await NoteService();
     const allNotes = await Note.getAllNotes();
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   }
 };
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { title, contents }:Note = await req.json();
     const notePayload = { title, contents };
